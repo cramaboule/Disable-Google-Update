@@ -1,6 +1,11 @@
 ::Disable Google Update on all server
 
 @echo off
+
+if not "%1"=="am_admin" (powershell start -verb runas '%0' am_admin & exit /b)
+cd %~dp0
+
+
 SETLOCAL ENABLEDELAYEDEXPANSION
 
 for /f "tokens=*" %%a in (C:\path\to\Serveurs-list.txt) do (
@@ -11,6 +16,6 @@ for /f "tokens=*" %%a in (C:\path\to\Serveurs-list.txt) do (
 	  echo %%H
 	  SC \\%%a config %%H start= disabled
 	)
-
+	SC \\%%a config gupdate start= disabled
 
 )
